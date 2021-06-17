@@ -16,7 +16,12 @@
 #include "Delay.h"
 #include "SFR_Macro.h"
 #include "Function_define.h"
+
+#ifdef __SDCC
+__bit BIT_TMP;
+#else
 bit BIT_TMP;
+#endif
 
 //-------------------------------------------------------------------------
 void Timer0_Delay100us(UINT32 u32CNT)

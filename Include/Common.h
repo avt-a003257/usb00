@@ -1,4 +1,4 @@
-typedef bit                   BIT;
+typedef __bit                   BIT;
 typedef unsigned char         UINT8;
 typedef unsigned int          UINT16;
 typedef unsigned long         UINT32;
@@ -33,4 +33,8 @@ void  Send_Data_To_UART1(UINT8 c);
 UINT8 Receive_Data_From_UART1(void);
 void  InitialUART1(UINT32 u32Baudrate);
 
+#ifdef __SDCC
+extern __bit BIT_TMP;
+#else
 extern bit BIT_TMP;
+#endif

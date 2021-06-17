@@ -4,11 +4,16 @@ N76E003 Function_define.h V1.02
 All function define inital setting file for Nuvoton N76E003
 --------------------------------------------------------------------------*/
 
+#ifndef __SDCC
 #include <intrins.h>
+#endif
 #include <stdio.h>
 
+#ifdef __SDCC
+#define nop __asm__ ("NOP");
+#else
 #define nop _nop_();
-
+#endif
 
 //16 --> 8 x 2
 #define HIBYTE(v1)              ((UINT8)((v1)>>8))                      //v1 is UINT16
