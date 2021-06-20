@@ -6,7 +6,7 @@ message("Building for: " ${CMAKE_GENERATOR})
 
 set(CMAKE_C_COMPILER SDCC)
 #set(CMAKE_C_FLAGS "--verbose -mmcs51 --opt-code-size --no-xinit-opt -D FOSC_160000")
-set(CMAKE_C_FLAGS "-mmcs51 --opt-code-size --no-xinit-opt -D FOSC_160000")
+set(CMAKE_C_FLAGS "-mmcs51 --opt-code-size -D FOSC_160000")
 #set(CMAKE_CXX_COMPILER SDCC)
 #set(CMAKE_C_STANDARD 99)
 set(CMAKE_SYSTEM_NAME Generic)
