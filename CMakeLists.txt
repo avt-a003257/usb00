@@ -21,6 +21,7 @@ include_directories(
 
 set(SOURCES
     main.c
+    putchar.c
     Common/Common.c
     Common/Delay.c
 )
