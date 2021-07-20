@@ -6,30 +6,30 @@
 /* Table 9-2. Format of Setup Data
  */
 typedef struct {
-	UINT8 bmRequestType;
-	UINT8 bReques;
-	UINT16 wValue;
-	UINT16 wIndex;
-	UINT16 wLength;
+	u8 bmRequestType;
+	u8 bReques;
+	u16 wValue;
+	u16 wIndex;
+	u16 wLength;
 } formatSetupData;
 
 /* Table 9-8. Standard Device Descriptor
  */
 typedef struct {
-	UINT8 bLength;
-	UINT8 bDescriptorType;
-	UINT16 bcdUSB;
-	UINT8 bDeviceClass;
-	UINT8 DeviceSubClass;
-	UINT8 bDeviceProtocol;
-	UINT8 bMaxPacketSize0;
-	UINT16 idVendor;
-	UINT16 idProduct;
-	UINT16 bcdDevice;
-	UINT8 iManufacturer;
-	UINT8 iProduct;
-	UINT8 iSerialNumber;
-	UINT8 bNumConfigurations;
+	u8 bLength;
+	u8 bDescriptorType;
+	u16 bcdUSB;
+	u8 bDeviceClass;
+	u8 DeviceSubClass;
+	u8 bDeviceProtocol;
+	u8 bMaxPacketSize0;
+	u16 idVendor;
+	u16 idProduct;
+	u16 bcdDevice;
+	u8 iManufacturer;
+	u8 iProduct;
+	u8 iSerialNumber;
+	u8 bNumConfigurations;
 } stdDeviceDescriptor;
 
 /* Table 9-4. Standard Request Codes
@@ -59,10 +59,10 @@ typedef struct {
 
 #ifdef DBG
 
-void dbg_setup_date(UINT8 *buf);
+void dbg_setup_date(u8 *buf);
 
 #endif /* DBG */
 
-extern const UINT8 deviceDescriptor[];
+extern const u8 deviceDescriptor[];
 
 #endif /* _USBCORE_H_ */

@@ -21,10 +21,11 @@ include_directories(
 
 set(SOURCES
     main.c
-    putchar.c
+    common.c
+    uart.c
+    tmr.c
     usbd12.c
-    Common/Common.c
-    Common/Delay.c
+    usbcore.c
 )
 
 add_executable(${PROJECT_NAME} ${SOURCES})

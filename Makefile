@@ -5,26 +5,26 @@
 
 CC = sdcc 
 
-SRCS = $(wildcard */*.c) $(wildcard *.c)
+SRCS = $(wildcard *.c)
 OBJS = $(patsubst %.c,%.rel,$(SRCS))
 
 VERBOSE = --verbose
 TARGET = -mmcs51
-INCLUDES = -I. -IInclude
-OPTIMIZE = --opt-code-size --no-xinit-opt
-CFLAGS = -c $(VERBOSE) $(TARGET) $(INCLUDES) $(OPTIMIZE) -D FOSC_160000
-LFLAGS = $(VERBOSE) $(TARGET)
+INCLUDES = -I.
+OPTIMIZE = --opt-code-size #--no-xinit-opt
+CFLAGS = -c $(VERBOSE) $(TARGET) $(INCLUDES) $(OPTIMIZE) -DDBG
+LFLAGS = $(VERBOSE) $(TARGET) --iram-size 512 --code-size 8192
 LIBS = 
-ifeq ($(OS),Windows_NT)
-	RM = del
+
+ifeq ($(OS), Windows_NT)
+RM = del
 else
-	RM = rm
+RM = rm
 endif
 
 all : rom.hex
 
-#rom.hex : $(OBJS)
-rom.hex : main.rel Common.rel Delay.rel 
+rom.hex : $(OBJS)
 	$(CC) -o $(patsubst %.hex,%.ihx,$@) $(LFLAGS) $(LIBS) $^ 
 	packihx rom.ihx > rom.hex
 #	objcopy -Iihex -Obinary rom.hex rom.bin

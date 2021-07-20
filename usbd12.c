@@ -2,9 +2,9 @@
 #include "usbcore.h"
 #include "common.h"
 
-UINT8 usbd12_read_byte(void)
+u8 usbd12_read_byte(void)
 {
-	UINT8 retval;
+	u8 retval;
 
 	USBD12_A0 = DATA;
 	USBD12_RD = 0;
@@ -14,9 +14,9 @@ UINT8 usbd12_read_byte(void)
 	return retval;
 }
 
-void usbd12_read_bytes(UINT8 len, UINT8 *buf)
+void usbd12_read_bytes(u8 len, u8 *buf)
 {
-	UINT8 i = 0;
+	u8 i = 0;
 
 	USBD12_A0 = DATA;
     for (i = 0; i < len; ++i)
@@ -27,7 +27,7 @@ void usbd12_read_bytes(UINT8 len, UINT8 *buf)
     }
 }
 
-void usbd12_write_byte(UINT8 addr, UINT8 data)
+void usbd12_write_byte(u8 addr, u8 data)
 {
 	USBD12_A0 = addr;
 	USBD12_WR = 0;
@@ -36,9 +36,9 @@ void usbd12_write_byte(UINT8 addr, UINT8 data)
 	USBD12_DATA = 0xFF;
 }
 
-void usbd12_write_bytes(UINT8 len, UINT8 *buf)
+void usbd12_write_bytes(u8 len, u8 *buf)
 {
-	UINT8 i = 0;
+	u8 i = 0;
 
 	USBD12_A0 = DATA;
     for (i = 0; i < len; ++i)
@@ -49,19 +49,18 @@ void usbd12_write_bytes(UINT8 len, UINT8 *buf)
     }
 }
 
-UINT16 usbd12_read_id(void)
+u16 usbd12_read_id(void)
 {
-	UINT16 retval = 0;
+	u16 retval = 0;
 
 	usbd12_write_byte(CMD, READ_ID);
 	retval = usbd12_read_byte();
-	retval |= ((UINT16)usbd12_read_byte()) << 8;
+	retval |= ((u16)usbd12_read_byte()) << 8;
 
 	return retval;
 }
 
-#if 0
-void usbd12_is_plugin(UINT8 is_plugin)
+void usbd12_is_plugin(bool is_plugin)
 {
 	usbd12_write_byte(CMD, SET_MODE);
 
@@ -85,9 +84,9 @@ void usbd12_is_plugin(UINT8 is_plugin)
 //void usbd12_isr_handler(void *arg)
 void usbd12_isr_handler(void)
 {
-//	UINT8 val = ((struct _isr_status *)arg)->usbd12_intreg[0];
-	UINT8 val = 0;
-	UINT8 buf[16] = {0};
+//	u8 val = ((struct _isr_status *)arg)->usbd12_intreg[0];
+	u8 val = 0;
+	u8 buf[16] = {0};
 
 	usbd12_write_byte(CMD, READ_INT_REG);
 	g_isr.usbd12_intreg[0] = usbd12_read_byte();
@@ -149,16 +148,20 @@ void usbd12_isr_handler(void)
             usbd12_read_ep_buffer(EP_CTRL_OUT, 16, buf);
             d12_clear_buffer();
         }
-
+#ifdef DBG
 		dbg_setup_date(buf);
+#endif
 	}
 
 //	((struct _isr_status *)arg)->usbd12_intreg[0] = 0;
 }
 
-UINT8 usbd12_read_ep_buffer(UINT8 ep, UINT8 len, UINT8 *buf)
+u8 usbd12_read_ep_buffer(u8 ep, u8 len, u8 *buf)
 {
-    UINT8 i, j;
+#ifdef DBG
+    u8 i;
+#endif
+	u8 j;
 
     usbd12_select_ep(ep);
     usbd12_write_byte(CMD, READ_BUFFER);
@@ -183,7 +186,7 @@ UINT8 usbd12_read_ep_buffer(UINT8 ep, UINT8 len, UINT8 *buf)
     return j;
 }
 
-UINT8 usbd12_read_ep_last_status(UINT8 ep)
+u8 usbd12_read_ep_last_status(u8 ep)
 {
     usbd12_write_byte(CMD, 0x40 + ep);
 
@@ -198,9 +201,9 @@ void d12_acknowledge_setup(void)
     usbd12_write_byte(CMD, ACKNOWLEDGE_SETUP);
 }
 
-void d12_write_endpoint_buffer(UINT8 endp, UINT8 len, UINT8 *buf)
+void d12_write_endpoint_buffer(u8 endp, u8 len, u8 *buf)
 {
-	UINT8 i;
+	u8 i;
 
 	usbd12_select_ep(endp);
 	usbd12_write_byte(CMD, WRITE_BUFFER);
@@ -219,11 +222,11 @@ void d12_write_endpoint_buffer(UINT8 endp, UINT8 len, UINT8 *buf)
 	usbd12_write_byte(CMD, VALIDATE_BUFFER);
 }
 
-static UINT16 sendLength;
-static UINT8 *pSendData;
-static UINT8 needZeroPacket;
+static u16 sendLength;
+static u8 *pSendData;
+static u8 needZeroPacket;
 
-void ep0_send_data(UINT8 *buf)
+void ep0_send_data(u8 *buf)
 {
 	stdDeviceDescriptor *p = (stdDeviceDescriptor *) buf;
 
@@ -256,4 +259,3 @@ void usbd12_ep0_in(void)
 	usbd12_read_ep_last_status(EP_CTRL_IN);
 	ep0_send_data(deviceDescriptor);
 }
-#endif

@@ -2,7 +2,7 @@
 
 #include "usbcore.h"
 
-const UINT8 deviceDescriptor[18] =
+const u8 deviceDescriptor[18] =
 {
 	18, /* bLength */
 	DT_DEVICE, /* bDescriptorType */
@@ -27,7 +27,7 @@ const UINT8 deviceDescriptor[18] =
 #ifdef DBG
 /* Table 9-2. Format of Setup Data
  */
-void dbg_setup_date(UINT8 *buf)
+void dbg_setup_date(u8 *buf)
 {
 	formatSetupData d;
 	

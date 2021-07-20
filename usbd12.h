@@ -3,16 +3,13 @@
 #ifndef _USBD12_H_
 #define _USBD12_H_
 
-#include "N76E003.h"
-#include "Common.h"
+#include "common.h"
 
-#ifdef N76E003_H
-#define USBD12_DATA P1
-#define USBD12_A0 P05
-#define USBD12_WR P06
-#define USBD12_RD P07
-#define USBD12_INT P30
-#endif
+#define USBD12_DATA P0
+#define USBD12_A0 P3_5
+#define USBD12_WR P3_6
+#define USBD12_RD P3_7
+#define USBD12_INT P3_2
 
 #define CMD 1
 #define DATA 0
@@ -66,7 +63,7 @@
  * 0x80 to 0x85
  */
 
-UINT8 usbd12_read_ep_last_status(UINT8 ep);
+u8 usbd12_read_ep_last_status(u8 ep);
 
 #define READ_LAST_TRANSACT_STATUS_REG (0x40) /* 0x40 to 0x45 */
 #define READ_BUFFER (0xF0)
@@ -84,9 +81,9 @@ UINT8 usbd12_read_ep_last_status(UINT8 ep);
 #define READ_CURR_FRAME_NUMBER (0xF5)
 #define READ_ID (0xFD)
 
-UINT8 usbd12_read_byte(void);
-void usbd12_write_byte(UINT8 type, UINT8 cmd);
-UINT16 usbd12_read_id(void);
+u8 usbd12_read_byte(void);
+void usbd12_write_byte(u8 type, u8 cmd);
+u16 usbd12_read_id(void);
 void usbd12_bus_change(void);
 void usbd12_bus_reset(void);
 void usbd12_ep2_in(void);
@@ -95,13 +92,13 @@ void usbd12_ep1_in(void);
 void usbd12_ep1_out(void);
 void usbd12_ep0_in(void);
 void usbd12_ep0_out(void);
-void usbd12_is_plugin(UINT8 is_plugin);
+void usbd12_is_plugin(bool is_plugin);
 //void usbd12_isr_handler(void *arg);
 void usbd12_isr_handler(void);
-UINT8 usbd12_read_ep_buffer(UINT8 ep, UINT8 len, UINT8 *buf);
+u8 usbd12_read_ep_buffer(u8 ep, u8 len, u8 *buf);
 #define d12_clear_buffer() usbd12_write_byte(CMD, CLEAR_BUFFER)
 void d12_acknowledge_setup(void);
-void d12_write_endpoint_buffer(UINT8 endp, UINT8 len, UINT8 *buf);
+void d12_write_endpoint_buffer(u8 endp, u8 len, u8 *buf);
 
 #endif /* _USBUSBD12_H_ */
 
