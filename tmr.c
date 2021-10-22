@@ -8,7 +8,7 @@ static volatile u32 g_clk;
 void tmr0_isr(void) __interrupt (1)
 {
 	++g_clk;
-	TH0 = (u32) REGVAL >> 8; 
+	TH0 = (u8)((u32) REGVAL >> 8); 
 	TL0 = REGVAL & 0xFF;
 }
 
@@ -18,7 +18,7 @@ void tmr0_init(void)
 {
 	TMOD &= 0xF0; /* set tmr0 as mode 1 */
 	TMOD |= MOD_16B;
-	TH0 = (u32) REGVAL >> 8; 
+	TH0 = (u8)((u32) REGVAL >> 8); 
 	TL0 = REGVAL & 0xFF;
 	ET0 = 1; /* enable tmr0 interrupt */
 	TR0 = 1; /* start tmr0 */

@@ -7,8 +7,8 @@
 void main(void)
 {
 //	u8 keyval[2] = {0};
-u32 val;
-u8 intpin;
+	u32 val = 0;
+	u8 intpin;
 	uart_init(115200UL);
 	tmr0_init();
 //	extint_init(INT0, TRIGGER_FALLING_EDGE);
@@ -19,15 +19,23 @@ u8 intpin;
 
 	printf("USBD12 0x%04X\r\n", usbd12_read_id());
 
-	while (1) {
-		val = get_clk();
-
-		if (!(val & 0xF)) P2 = ~P2;
-
+	while (1) 
+	{
+//		val = get_clk();
+		if (val == 3600)
+		{
+			P2 = ~P2;
+			val = 0;
+		}
+#if 0
 		intpin = USBD12_INT;		
-		if (!intpin) {
+		if (!intpin) 
+		{
 			usbd12_isr_handler();
 		}
+#endif
+
+		++val;
 	}
 }
 
